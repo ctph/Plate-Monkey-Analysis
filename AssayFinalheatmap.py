@@ -7,12 +7,9 @@ pd.set_option('future.no_silent_downcasting', True)
 
 
 # Define the paths to the files
-assaydis_path = '/Users/curwenpeihongtan/Desktop/pcrJob2/Final Result/Assay_dispensing.xlsx'
-ctdis_path = '/Users/curwenpeihongtan/Desktop/pcrJob2/Final Result/Cts Dispensing pattern.xlsx'
-'''
-ctdis_path = '/home/ec2-user/Plate-Monkey-Analysis/Cts Dispensing pattern.xlsx'
-sampledis_path = '/home/ec2-user/Plate-Monkey-Analysis/Assay_dispensing.xlsx'
-'''
+assaydis_path = 'Assay_dispensing.xlsx'
+ctdis_path = 'Cts Dispensing pattern.xlsx'
+
 # Read the Excel files into pandas DataFrames
 ctdis_data = pd.read_excel(ctdis_path)
 sample_data = pd.read_excel(assaydis_path)
