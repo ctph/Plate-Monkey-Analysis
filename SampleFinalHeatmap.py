@@ -2,9 +2,6 @@ import pandas as pd
 import plotly.graph_objects as go
 from dash import Dash, dcc, html, Input, Output
 
-# Suppress the future warning for downcasting
-pd.set_option('future.no_silent_downcasting', True)
-
 
 # Define the paths to the files
 sampledis_path = '/Users/curwenpeihongtan/Desktop/pcrJob2/Final Result/Sample_dispensing.xlsx'
