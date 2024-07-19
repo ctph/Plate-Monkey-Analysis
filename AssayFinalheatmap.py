@@ -3,8 +3,6 @@ import plotly.graph_objects as go
 from dash import Dash, dcc, html, Input, Output
 
 # Suppress the future warning for downcasting
-pd.set_option('future.no_silent_downcasting', True)
-
 
 # Define the paths to the files
 assaydis_path = 'Assay_dispensing.xlsx'
