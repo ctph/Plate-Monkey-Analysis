@@ -28,7 +28,7 @@ color_ranges = {
 }
 
 app.layout = html.Div([
-    html.H1("Sample Dispensing Heatmap Visualization"),
+    html.H1("Assay Dispensing Heatmap Visualization"),
     dcc.Checklist(
         id='color-checklist',
         options=[{'label': color, 'value': color} for color in color_ranges.keys()],
