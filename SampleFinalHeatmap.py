@@ -19,6 +19,7 @@ sample_data = pd.read_excel(sampledis_path)
 
 # Create the Dash app
 app = Dash(__name__)
+server = app.server
 
 # Define color options
 color_ranges = {
