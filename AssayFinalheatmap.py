@@ -5,18 +5,17 @@ from dash import Dash, dcc, html, Input, Output
 # Suppress the future warning for downcasting
 pd.set_option('future.no_silent_downcasting', True)
 
-'''
-# Define the paths to the files
-sampledis_path = '/Users/curwenpeihongtan/Desktop/pcrJob2/Assay_dispensing.xlsx'
-ctdis_path = '/Users/curwenpeihongtan/Desktop/pcrJob2/Cts Dispensing pattern.xlsx'
-'''
 
+# Define the paths to the files
+assaydis_path = '/Users/curwenpeihongtan/Desktop/pcrJob2/Final Result/Assay_dispensing.xlsx'
+ctdis_path = '/Users/curwenpeihongtan/Desktop/pcrJob2/Final Result/Cts Dispensing pattern.xlsx'
+'''
 ctdis_path = '/home/ec2-user/Plate-Monkey-Analysis/Cts Dispensing pattern.xlsx'
 sampledis_path = '/home/ec2-user/Plate-Monkey-Analysis/Assay_dispensing.xlsx'
-
+'''
 # Read the Excel files into pandas DataFrames
 ctdis_data = pd.read_excel(ctdis_path)
-sample_data = pd.read_excel(sampledis_path)
+sample_data = pd.read_excel(assaydis_path)
 
 # Create the Dash app
 app = Dash(__name__)
