@@ -88,7 +88,7 @@ def update_heatmap(selected_colors, range_min, range_max):
     ))
 
     fig_sample.update_layout(
-        title='CT Dispensing and Assay Dispensing Heatmap with Annotations',
+        title='CT Dispensing and Sample Dispensing Heatmap with Annotations',
         xaxis_title='Column Number',
         yaxis_title='Row Number'
     )
