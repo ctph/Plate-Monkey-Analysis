@@ -121,61 +121,9 @@ def calculate_color_counts(data, color_ranges):
         count -= color_subtractions.get(color, 0)  # Subtract the defined value
         color_counts[color] = max(count, 0)  # Ensure count does not go negative
     return color_counts
-'''
-def create_broken_axis_bar_chart(color_counts):
-    # Define the cut points for the broken axis
-    height = 800
-    width = 800
-    cut_interval = [60, 300]
-    # Prepare subplots
-    fig = make_subplots(rows=2, cols=1, vertical_spacing=0.02, shared_xaxes=True, subplot_titles=('', ''))
-    
-    # Create upper and lower plots
-    upper_data = {k: v if v > cut_interval[1] else 0 for k, v in color_counts.items()}
-    lower_data = {k: v if v <= cut_interval[1] else cut_interval[0] for k, v in color_counts.items()}
-    
-    x_labels = [f"{color}<br>({start}-{end})" for color, (start, end) in color_ranges.items()]
-
-    upper_bar = go.Bar(
-        x= x_labels,#list(upper_data.keys()), 
-        y=list(upper_data.values()), 
-        marker_color=list(upper_data.keys()), 
-        text=list(upper_data.values()),  # Adding text to the bars
-        textposition='outside'  # Positioning text outside the bars
-    )
-    lower_bar = go.Bar(
-        x=x_labels, #list(lower_data.keys()), 
-        y=list(lower_data.values()), 
-        marker_color=list(lower_data.keys()),
-        text=[v if v != 60 else '' for v in lower_data.values()],  # Avoid displaying zero values
-        textposition='outside'
-    )
-    
-    fig.add_trace(upper_bar, row=1, col=1)
-    fig.add_trace(lower_bar, row=2, col=1)
-    
-    # Customize axis to show the break
-    fig.update_yaxes(range=[cut_interval[1], max(upper_data.values()) * 1.1], row=1, col=1)
-    fig.update_yaxes(range=[0, cut_interval[0]], row=2, col=1)
-    
-    # Hide the x-axis line on the upper plot to simulate the break
-    fig.update_xaxes(showline=False, showticklabels=False, row=1, col=1)
-    
-    # Update the layout with the x-axis title at the bottom
-    fig.update_layout(
-        title='Number of Cells in Each Color Range',
-        xaxis2_title='Ct Range',  # xaxis2_title to ensure it's on the lower plot
-        yaxis_title='Number of Samples in that Ct range',
-        font=dict(family='Arial', color = 'black'), 
-        showlegend=False,
-        height=height,
-        width=width
-    )
-    return fig
-'''
 
 def create_broken_axis_bar_chart(color_counts):
-    # Define the cut points for the broken axis
+    # Define the cut points 
     height = 800
     width = 800
     cut_interval = [60, 300]
@@ -221,22 +169,22 @@ def create_broken_axis_bar_chart(color_counts):
     fig.update_yaxes(
         range=[0, cut_interval[0]], 
         row=2, col=1,
-        showline=True,  # Show the line
-        showticklabels=True,  # Show the tick labels
-        linecolor='black',  # Set line color to black
-        linewidth=2,  # Set line width
-        ticks='outside',  # Place ticks outside the axis line
-        tickfont=dict(family='Arial', color='black', size=12)  # Font settings for ticks
+        showline=True, 
+        showticklabels=True,  
+        linecolor='black', 
+        linewidth=2,  
+        ticks='outside', 
+        tickfont=dict(family='Arial', color='black', size=12)  
     )
     
 
     fig.update_xaxes(
-        showline=True,  # Show the line
-        showticklabels=True,  # Show the tick labels
-        linecolor='black',  # Set line color to black
-        linewidth=2,  # Set line width
-        ticks='outside',  # Place ticks outside the axis line
-        tickfont=dict(family='Arial', color='black', size=12),  # Font settings for ticks
+        showline=True,  
+        showticklabels=True,  
+        linecolor='black',  
+        linewidth=2, 
+        ticks='outside',  
+        tickfont=dict(family='Arial', color='black', size=12),  
         row=2, col=1
     )
     
