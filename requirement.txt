@@ -1,7 +1,7 @@
 dash==2.17.1  # Replace with the latest compatible version you're using
 dash-core-components==2.0.0  # Replace with the actual version in your environment
 dash-html-components==2.0.0  # Replace with the actual version in your environment
-dash-renderer==2.0.0  # Replace with the actual version in your environment
+dash-renderer==1.9.1  # Replace with the actual version in your environment
 dash-bootstrap-components==1.4.1  # If you use Bootstrap for styling
 plotly==5.15.0  # Ensure compatibility with Dash version
 pandas==2.0.3  # Replace with your environment's version
