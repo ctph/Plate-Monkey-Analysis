@@ -3,7 +3,7 @@ dash-core-components==2.0.0  # Replace with the actual version in your environme
 dash-html-components==2.0.0  # Replace with the actual version in your environment
 dash-renderer==1.9.1  # Replace with the actual version in your environment
 dash-bootstrap-components==1.4.1  # If you use Bootstrap for styling
-plotly==5.15.0  # Ensure compatibility with Dash version
-pandas==2.0.3  # Replace with your environment's version
-numpy==1.24.3  # Replace with your environment's version
+plotly==5.24.1  # Ensure compatibility with Dash version
+pandas==2.2.3  # Replace with your environment's version
+numpy==1.26.4  # Replace with your environment's version
 gunicorn==21.2.0  # Required for deployment
