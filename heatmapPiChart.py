@@ -56,7 +56,7 @@ def calculate_color_counts(data, color_ranges):
 app.layout = html.Div([
     html.H1(
         "Plate Monkey Analysis",
-        style={"font-family": "Arial", "text-align": "left"}  # Set font-family to Arial and align to center (optional)
+        style={"font-family": "Arial", "text-align": "left"}  # Set font-family to Arial and align to center 
     ),    
     html.Label(
         "Select a Colorscale:",
@@ -250,7 +250,7 @@ def create_broken_axis_bar_chart(color_counts, selected_color_ranges):
         linecolor="black",
         linewidth=2,
         ticks="outside",
-        tickfont=dict(family="Arial", color="black", size=12)
+        tickfont=dict(family="Arial", color="black", size=16)
     )
     fig.update_yaxes(
         range=[0, cut_interval[0]],  # Lower axis range
@@ -260,7 +260,7 @@ def create_broken_axis_bar_chart(color_counts, selected_color_ranges):
         linecolor="black",
         linewidth=2,
         ticks="outside",
-        tickfont=dict(family="Arial", color="black", size=12)
+        tickfont=dict(family="Arial", color="black", size=16)
     )
 
     # Update x-axis (shared across both sections)
@@ -270,7 +270,7 @@ def create_broken_axis_bar_chart(color_counts, selected_color_ranges):
         linecolor="black",
         linewidth=2,
         ticks="outside",
-        tickfont=dict(family="Arial", color="black", size=12),
+        tickfont=dict(family="Arial", color="black", size=16),
         row=2, col=1  # Apply only on the lower axis (shared x-axis)
     )
 
