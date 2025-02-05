@@ -85,6 +85,19 @@ app.layout = html.Div([
         style={"font-family": "Arial"}
 
     ),
+    html.Label(
+        "Color Reference Image:",
+        style={"font-family": "Arial"}
+    ),
+    
+    # Color reference image
+    html.Img(
+        src="https://sjmgarnier.github.io/viridisLite/reference/figures/viridis-scales.png",
+        style={"width": "20%", "height": "10%", "display": "block", "text-align": "left"},
+    ),
+
+    # Color reference image
+    
     html.Div(id="color-range-inputs"),  
     dcc.Graph(id="heatmap-plot"),
     dcc.Graph(id="bar-chart"),
@@ -174,8 +187,14 @@ def update_heatmap_and_barchart(n_clicks, selected_colorscale, ranges):
     bar_chart_fig = create_broken_axis_bar_chart(color_counts, selected_color_ranges)
 
     # Pie chart logic
-    labels = list(color_counts.keys())
-    values = list(color_counts.values())
+    # sample_type_counts = sample_data.apply(pd.Series.value_counts).sum(axis=1)
+    sample_data_with_nulls = sample_data.copy()
+    sample_data_with_nulls = sample_data_with_nulls.fillna("NaN")  # Replace NaN with "NaN"
+    sample_data_with_nulls = sample_data_with_nulls.replace("Sample", "Sample")  # Keep "Sample" unchanged
+
+    sample_type_counts = sample_data_with_nulls.apply(pd.Series.value_counts).sum(axis=1)
+    labels = sample_type_counts.index
+    values = sample_type_counts.values
 
     pie_chart_fig = go.Figure(
         go.Pie(
@@ -187,7 +206,7 @@ def update_heatmap_and_barchart(n_clicks, selected_colorscale, ranges):
         )
     )
     pie_chart_fig.update_layout(
-        title="Distribution of Samples Across Color Ranges",
+        title="Distribution of Samples Types",
         font=dict(family="Arial", color="black"),
         height=500,
         width=500
@@ -204,15 +223,25 @@ def create_broken_axis_bar_chart(color_counts, selected_color_ranges):
     # Define cut points for the axis break
     height = 1000
     width = 1000
-    cut_interval = [60, 300]  # Adjust as needed
+    cut_interval = [60, 300]
 
     # Split data into upper and lower ranges for broken axis
     upper_data = {k: v if v > cut_interval[1] else 0 for k, v in color_counts.items()}
     lower_data = {k: v if v <= cut_interval[1] else cut_interval[0] for k, v in color_counts.items()}
 
-    # Map colors dynamically to match heatmap
-    color_map = {"color-0": "red", "color-1": "blue", "color-2": "green", "color-3": "pink"}
-    bar_colors = [color_map.get(color, "black") for color in color_counts.keys()]
+    # Define color map for all possible keys
+    color_map = {
+        "color-0": "red",
+        "color-1": "blue",
+        "color-2": "green",
+        "color-3": "pink",
+        "color-4": "orange",
+        "color-5": "purple",
+        "color-6": "yellow",
+    }
+
+    # Dynamically map colors for bars
+    bar_colors = [color_map.get(color, "gray") for color in color_counts.keys()]
 
     # Generate x_labels with dynamic color ranges
     x_labels = [
@@ -220,23 +249,20 @@ def create_broken_axis_bar_chart(color_counts, selected_color_ranges):
         for color, (range_min, range_max) in selected_color_ranges.items()
     ]
 
-    bar_colors = "black"  # Change this to any color you prefer
-
-
     # Prepare subplots for the broken axis
     fig = make_subplots(
         rows=2, cols=1,
-        vertical_spacing=0.02,  # Adjust space between the two axes
-        shared_xaxes=True,     # Use the same x-axis labels for both sections
+        vertical_spacing=0.02,
+        shared_xaxes=True
     )
 
     # Add upper axis trace
     fig.add_trace(
         go.Bar(
             x=x_labels,
-            y=list(upper_data.values()),  # Data for the upper axis
+            y=list(upper_data.values()),
             name="Upper Axis",
-            marker=dict(color=bar_colors),  # Match the colors to the heatmap
+            marker=dict(color=bar_colors)
         ),
         row=1, col=1
     )
@@ -245,44 +271,34 @@ def create_broken_axis_bar_chart(color_counts, selected_color_ranges):
     fig.add_trace(
         go.Bar(
             x=x_labels,
-            y=list(lower_data.values()),  # Data for the lower axis
+            y=list(lower_data.values()),
             name="Lower Axis",
-            marker=dict(color=bar_colors),  # Match the colors to the heatmap
+            marker=dict(color=bar_colors)
         ),
         row=2, col=1
     )
 
     # Adjust the ranges for both axes
     fig.update_yaxes(
-        range=[cut_interval[1], max(upper_data.values()) * 1.1],  # Upper axis range
-        row=1, col=1,
-        showline=True,
-        showticklabels=True,
-        linecolor="black",
-        linewidth=2,
-        ticks="outside",
-        tickfont=dict(family="Arial", color="black", size=16)
+        range=[cut_interval[1], max(upper_data.values()) * 1.1 or cut_interval[1] * 1.1],
+        showline=True, linecolor="black", linewidth=2, ticks="outside",
+        tickfont=dict(family="Arial", color="black", size=16),
+        showgrid=True, gridcolor="lightgray",
+        row=1, col=1
     )
     fig.update_yaxes(
-        range=[0, cut_interval[0]],  # Lower axis range
-        row=2, col=1,
-        showline=True,
-        showticklabels=True,
-        linecolor="black",
-        linewidth=2,
-        ticks="outside",
-        tickfont=dict(family="Arial", color="black", size=16)
+        range=[0, cut_interval[0] * 1.1],
+        showline=True, linecolor="black", linewidth=2, ticks="outside",
+        tickfont=dict(family="Arial", color="black", size=16),
+        showgrid=True, gridcolor="lightgray",
+        row=2, col=1
     )
 
     # Update x-axis (shared across both sections)
     fig.update_xaxes(
-        showline=True,
-        showticklabels=True,
-        linecolor="black",
-        linewidth=2,
-        ticks="outside",
+        showline=True, linecolor="black", linewidth=2, ticks="outside",
         tickfont=dict(family="Arial", color="black", size=16),
-        row=2, col=1  # Apply only on the lower axis (shared x-axis)
+        row=2, col=1
     )
 
     # Customize layout
@@ -297,6 +313,7 @@ def create_broken_axis_bar_chart(color_counts, selected_color_ranges):
     )
 
     return fig
+
  
 @app.callback( 
     Output("color-range-inputs", "children"),
@@ -319,7 +336,7 @@ def update_color_inputs(selected_colors):
 
 # Run the app
 if __name__ == "__main__":
-    app.run_server(debug=True, port=3000)
+    app.run_server(debug=True, port=3100)
 
 
 
